@@ -12,6 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.hellowworld.ui.theme.HellowWorldTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             HellowWorldTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "World",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    HelloWorldScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -31,17 +34,31 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
+fun HelloWorldScreen(modifier: Modifier = Modifier) {
+    var showHelloWorld by remember { mutableStateOf(false) }
+
+    Column(
         modifier = modifier
-    )
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { showHelloWorld = true }) {
+            Text(text = "Click Me")
+        }
+
+        if (showHelloWorld) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "Hello World", style = MaterialTheme.typography.headlineMedium)
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun HelloWorldScreenPreview() {
     HellowWorldTheme {
-        Greeting("Android")
+        HelloWorldScreen()
     }
 }
